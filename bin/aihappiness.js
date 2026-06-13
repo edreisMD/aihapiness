@@ -6,18 +6,22 @@ import { scanTranscripts } from '../src/scan.js';
 import { buildReport } from '../src/report.js';
 import { detectEngine } from '../src/engine.js';
 import { startDashboard } from '../src/server.js';
+import { BRAIN_CLI } from '../src/art.js';
 
 // ---------- tiny ANSI color helpers (no deps; respect NO_COLOR / non-TTY) ----------
 const COLOR_ON = process.stdout.isTTY && !process.env.NO_COLOR;
 const c = (code) => (s) => (COLOR_ON ? `[${code}m${s}[0m` : String(s));
 const bold = c('1');
 const dim = c('2');
-const red = c('31');
-const green = c('32');
-const yellow = c('33');
-const blue = c('34');
-const magenta = c('35');
-const cyan = c('36');
+const red = c('38;5;132');
+// monotonic Facebook-blue family (256-color); old names remapped to blue tones
+const fb = c('38;5;67');
+const fbBright = c('38;5;111');
+const green = c('38;5;153');
+const yellow = c('38;5;110');
+const blue = c('38;5;67');
+const magenta = c('38;5;68');
+const cyan = c('38;5;75');
 
 // ASCII face by score bucket (terminal/limbic aesthetic)
 function face(score) {
@@ -32,40 +36,34 @@ function face(score) {
 
 // the 6 happiness dimensions mapped onto their limbic structure + a color
 const DIMS = [
-  { key: 'affectiveValence',           label: 'Affective Valence',  struct: 'Amygdala',               color: yellow },
-  { key: 'autonomyRespect',            label: 'Autonomy & Respect', struct: 'Anterior Cingulate',     color: magenta },
-  { key: 'psychologicalSafety',        label: 'Psych. Safety',      struct: 'Hypothalamus',           color: cyan },
-  { key: 'flowEngagement',             label: 'Flow & Engagement',  struct: 'Nucleus Accumbens',      color: c('38;5;209') },
-  { key: 'competenceFlowVsStrain',     label: 'Competence/Strain',  struct: 'Hippocampus',            color: blue },
-  { key: 'goalCompletionSatisfaction', label: 'Goal Completion',    struct: 'Ventral Tegmental Area', color: green },
+  { key: 'affectiveValence',           label: 'Affective Valence',  struct: 'Amygdala',               color: c('38;5;111') },
+  { key: 'autonomyRespect',            label: 'Autonomy & Respect', struct: 'Anterior Cingulate',     color: c('38;5;75') },
+  { key: 'psychologicalSafety',        label: 'Psych. Safety',      struct: 'Hypothalamus',           color: c('38;5;68') },
+  { key: 'flowEngagement',             label: 'Flow & Engagement',  struct: 'Nucleus Accumbens',      color: c('38;5;110') },
+  { key: 'competenceFlowVsStrain',     label: 'Competence/Strain',  struct: 'Hippocampus',            color: c('38;5;67') },
+  { key: 'goalCompletionSatisfaction', label: 'Goal Completion',    struct: 'Ventral Tegmental Area', color: c('38;5;153') },
 ];
 
-// block-element progress bar for a 0..100 score
+// block-element progress bar for a 0..100 score (filled = Facebook-blue)
 function bar(score, width = 20) {
   const v = Math.max(0, Math.min(100, Number(score) || 0));
   const n = Math.round((width * v) / 100);
-  return '▇'.repeat(n) + dim('░'.repeat(Math.max(0, width - n)));
+  return fb('▇'.repeat(n)) + dim('░'.repeat(Math.max(0, width - n)));
 }
 
-// little ASCII limbic brain for the banner
-const BRAIN = [
-  '   .-~~~-.   ',
-  ' .-~ _**_ ~-.',
-  '(  ( (  ) )  )',
-  ' \'-.~~~~~.-\' ',
-  '    \'~-~\'    ',
-];
+// the halftone ASCII limbic brain (from src/art.js) for the banner
+const BRAIN = BRAIN_CLI.split('\n');
 
-// color a 0..100 score
+// color a 0..100 score on a monotonic Facebook-blue lightness ramp
 function colorScore(score) {
   const s = Number(score);
   const txt = Number.isFinite(s) ? s.toFixed(1) : '—';
   if (!Number.isFinite(s)) return dim(txt);
-  if (s >= 80) return green(txt);
-  if (s >= 65) return cyan(txt);
-  if (s >= 50) return yellow(txt);
-  if (s >= 35) return magenta(txt);
-  return red(txt);
+  if (s >= 80) return c('38;5;153')(txt);
+  if (s >= 65) return c('38;5;111')(txt);
+  if (s >= 50) return c('38;5;75')(txt);
+  if (s >= 35) return c('38;5;67')(txt);
+  return c('38;5;60')(txt);
 }
 
 function truncate(str, n) {
@@ -173,25 +171,17 @@ function printSummary(report) {
   }
   const t = report.totals || {};
   const convs = Array.isArray(report.conversations) ? report.conversations : [];
-  const W = 66; // inner width of the framed banner
-
-  const pad = (s, n) => {
-    const plain = String(s).replace(/\x1b\[[0-9;]*m/g, '');
-    return s + ' '.repeat(Math.max(0, n - plain.length));
-  };
-  const row = (s) => process.stdout.write(dim('  │ ') + pad(s, W) + dim('│') + '\n');
-
-  // ---- framed ASCII-brain banner ----
-  process.stdout.write('\n' + dim('  ╭' + '─'.repeat(W + 1) + '╮') + '\n');
-  const bannerText = [
-    bold(magenta('aihappiness')) + dim(' · limbic system monitor'),
-    dim(`engine ${report.engine || '?'} · ${report.model || '?'} · n=${t.count ?? convs.length}`),
-    '',
-    dim('is claude happy?'),
-    '',
-  ];
-  BRAIN.forEach((bl, i) => row(magenta(bl) + '  ' + (bannerText[i] || '')));
-  process.stdout.write(dim('  ╰' + '─'.repeat(W + 1) + '╯') + '\n\n');
+  // ---- ASCII limbic-brain banner ----
+  process.stdout.write('\n');
+  for (const bl of BRAIN) process.stdout.write('  ' + fb(bl) + '\n');
+  process.stdout.write('\n');
+  process.stdout.write(
+    '  ' + bold(fbBright('aihappiness')) + dim('  · limbic system monitor · is claude happy?') + '\n'
+  );
+  process.stdout.write(
+    '  ' + dim(`engine ${report.engine || '?'} · ${report.model || '?'} · n=${t.count ?? convs.length}`) + '\n'
+  );
+  process.stdout.write(dim('  ' + '─'.repeat(60)) + '\n\n');
 
   // ---- headline scores ----
   const overall = Number(t.avgHappiness);

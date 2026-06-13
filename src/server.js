@@ -6,9 +6,36 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+const WEB_DIR = path.join(__dirname, '..', 'web');
+
 // Resolve the dashboard HTML relative to this module (web/index.html one level up from src/).
 function dashboardHtmlPath() {
-  return path.join(__dirname, '..', 'web', 'index.html');
+  return path.join(WEB_DIR, 'index.html');
+}
+
+const MIME = {
+  '.html': 'text/html; charset=utf-8',
+  '.png': 'image/png',
+  '.svg': 'image/svg+xml',
+  '.css': 'text/css; charset=utf-8',
+  '.js': 'text/javascript; charset=utf-8',
+  '.json': 'application/json; charset=utf-8',
+};
+
+// Serve a static file from web/ by basename only (no path traversal). Returns true if served.
+function serveStatic(name, res) {
+  const safe = path.basename(name);
+  const file = path.join(WEB_DIR, safe);
+  if (!file.startsWith(WEB_DIR)) return false;
+  let buf;
+  try {
+    buf = fs.readFileSync(file);
+  } catch {
+    return false;
+  }
+  res.writeHead(200, { 'Content-Type': MIME[path.extname(safe)] || 'application/octet-stream' });
+  res.end(buf);
+  return true;
 }
 
 // Resolve the report path: explicit override, else <cwd>/.aihappiness/report.json.
@@ -56,6 +83,13 @@ export function startDashboard({ port = 7777, reportPath } = {}) {
       return;
     }
 
+    if (url === '/site' || url === '/landing' || url === '/landing.html') {
+      if (serveStatic('landing.html', res)) return;
+      res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+      res.end('landing.html not found');
+      return;
+    }
+
     if (url === '/api/report') {
       const report = readReport(resolvedReport);
       res.writeHead(200, {
@@ -66,12 +100,16 @@ export function startDashboard({ port = 7777, reportPath } = {}) {
       return;
     }
 
+    // static assets from web/ (rail.png, etc.)
+    if (serveStatic(url.replace(/^\//, ''), res)) return;
+
     res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
     res.end('Not found');
   });
 
   server.listen(port, () => {
     console.log(`Dashboard: http://localhost:${port}`);
+    console.log(`Landing:   http://localhost:${port}/site`);
   });
 
   return server;

@@ -10,26 +10,27 @@
   @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
 
   :root {
-    --bg:        #08080c;
-    --bg-2:      #0d0d14;
-    --panel:     #11111b;
-    --panel-2:   #15151f;
-    --grid:      #1d1d2b;
-    --border:    #26263a;
-    --border-hi: #34344e;
-    --ink:       #d7d7e2;
-    --ink-dim:   #7a7a90;
-    --ink-faint: #4a4a5e;
+    --bg:        #faf9f6;   /* warm near-white paper */
+    --bg-2:      #f1f0ea;
+    --panel:     #ffffff;
+    --panel-2:   #f6f5f0;
+    --grid:      #e7e5de;
+    --border:    #e4e2da;
+    --border-hi: #cfd4e0;
+    --ink:       #16181d;
+    --ink-dim:   #565b66;
+    --ink-faint: #9499a3;
 
-    /* limbic / neuro-emotional palette */
-    --coral:     #e0865f;   /* Claude coral */
-    --amber:     #f5a623;   /* amygdala */
-    --violet:    #a78bfa;   /* cingulate / synaptic */
-    --teal:      #2dd4bf;   /* hypothalamus / calm */
-    --blue:      #5fa8ff;   /* hippocampus */
-    --green:     #4ade80;   /* reward / good */
-    --red:       #f8717a;   /* distress */
-    --glow:      0 0 18px;
+    /* Facebook-blue family (limbic dimensions kept distinct by lightness), tuned for white */
+    --fb:        #3b5998;   /* original Facebook blue */
+    --coral:     #3f63a8;   /* flow */
+    --amber:     #4a6fb8;   /* valence */
+    --violet:    #355592;   /* respect */
+    --teal:      #2c4f8a;   /* safety */
+    --blue:      #466bb0;   /* strain */
+    --green:     #5b7bc0;   /* completion */
+    --red:       #a85a86;   /* muted rose — error/unresolved flags only */
+    --glow:      0 0 0;
   }
 
   * { box-sizing: border-box; }
@@ -40,9 +41,7 @@
     font-size: 13.5px;
     line-height: 1.5;
     background:
-      radial-gradient(900px 500px at 78% -8%, rgba(167,139,250,.10), transparent 60%),
-      radial-gradient(820px 480px at 10% 4%, rgba(224,134,95,.09), transparent 58%),
-      radial-gradient(700px 700px at 50% 120%, rgba(45,212,191,.06), transparent 60%),
+      radial-gradient(1000px 520px at 50% -8%, rgba(59,89,152,.07), transparent 62%),
       var(--bg);
     min-height: 100vh;
     padding: 22px 18px 60px;
@@ -57,7 +56,7 @@
     border: 1px solid var(--border);
     border-radius: 10px;
     background: linear-gradient(180deg, var(--bg-2), var(--bg));
-    box-shadow: 0 24px 70px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.02);
+    box-shadow: 0 12px 40px rgba(22,40,90,.10), inset 0 1px 0 rgba(255,255,255,.6);
     overflow: hidden;
   }
   .titlebar {
@@ -87,8 +86,8 @@
 
   /* HERO */
   .hero { display: grid; grid-template-columns: 280px 1fr; gap: 20px; padding: 26px 22px 22px; }
-  .brain { color: var(--violet); font-size: 12px; line-height: 1.18; white-space: pre; text-shadow: var(--glow) rgba(167,139,250,.35); margin: 0; align-self: center; }
-  .brain .core { color: var(--coral); }
+  .brain { color: var(--fb); font-size: 7px; line-height: 6px; white-space: pre; text-shadow: var(--glow) rgba(59,89,152,.45); margin: 0; align-self: center; }
+  .brain .core { color: var(--green); }
   .hero-right { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
   .bigscore { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
   .bigscore .num { font-size: 56px; font-weight: 700; line-height: 1; letter-spacing: -.02em; }
@@ -190,17 +189,7 @@ const DIMS = [
   { key:'goalCompletionSatisfaction',label:'Goal Completion',     struct:'Ventral Tegmental Area',  color:'var(--green)'  },
 ];
 
-const BRAIN =
-`        .-~~~-.
-     .-~  ___  ~-.
-    /   .'   '.   \\
-   /   /  .-.  \\   \\
-  |   |  (<span class="core">**</span>)  |   |
-  |   |   '-'   |   |
-   \\   \\ .'~'. /   /
-    \\   <span class="core">(~~~)</span>   /
-     '-.~~~~~.-'
-        '~-~'`;
+const BRAIN = (function(){ try { return decodeURIComponent(escape(atob("ICAgICAgIDppLX1bfXspfSkpMX19MSkxPytsIi4KICAgICExKSkpKHsofH0pKSkoXHwofCkoKTF7MX0/W19JCiAgXn0xMXwofHRYMDBMME9PUUxRTENRQ0xDWGopfX1bXV1dXgogbHsxKSkpendra2hXQCQkJCQkJCRAJiNrbUxZVTBVMV0/Py0tCkl7MTF7KHFNQCQkb3dMWVhudW5yanRmcm5jWVFDclxDKV9dPytpCi1dfSkpWSQkJDB1UWRRSjBRQ3puL1wofSkoKXsxfV0/XX0/K2l+Cj9dWz9bdGEqTHhxTCl8cWJiYmRiWXt7KTF9XXtbfVs/XS0tX2kKbF1dW319fXtbW3xVWShqd1dNd1h8MX1be1tfXX0tLSstfmwuCiBgK18tXS1dLV1VJCRwbyQkJGtqXT8/LT8/Pz8/Pz8tfTF7MXt+CiAgICAnaV9fKytfLS1dfXYmWF0tLV9ffkkgYHx8KDExMTEpMTExKSIKICAgICAgICAgICAgICAgICAgICAgICAgICAgfXx8KSkpKSkpKTExJwogICAgICAgICAgICAgICAgICAgICAgICAgICAuKHwpfl0xMXs/bAogICAgICAgICAgICAgICAgICAgICAgICAgICAgIXwoCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbGwu"))); } catch(e){ return '( brain )'; } })();
 
 const face = s => s>=80?':D':s>=65?':)':s>=50?':|':s>=35?':/':':(';
 const FILL='▇', EMPTY='░';
@@ -209,13 +198,13 @@ function bar(score, width=18){
   const n = Math.round(width * v/100);
   return FILL.repeat(n) + EMPTY.repeat(Math.max(0, width-n));
 }
-function hue(s){ // 0..100 -> red..amber..green
+function hue(s){ // Facebook-blue on white: higher = deeper & more saturated (readable)
   s = Math.max(0, Math.min(100, Number(s)||0));
-  return `hsl(${(s/100)*125} 70% 60%)`;
+  return `hsl(216 ${42 + (s/100)*26}% ${58 - (s/100)*24}%)`;
 }
-function valHue(v){ // -100..100
+function valHue(v){ // -100..100: positive = deeper blue, negative = lighter
   const t = (Math.max(-100,Math.min(100,Number(v)||0))+100)/200;
-  return `hsl(${t*125} 72% 60%)`;
+  return `hsl(216 ${40 + t*26}% ${60 - t*26}%)`;
 }
 const esc = s => String(s==null?'':s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const num = (v,d=0) => Number.isFinite(Number(v)) ? Number(v).toFixed(d) : '—';
@@ -316,9 +305,9 @@ function render(rep){
         <div class="cap">neural map · effectiveness × happiness</div>
         <div class="scatter-wrap">${scatterSVG(convs)}</div>
         <div class="scatter-legend">
-          <span><span class="swatch" style="background:hsl(0 72% 60%)"></span>distressed valence</span>
-          <span><span class="swatch" style="background:hsl(62 72% 60%)"></span>neutral</span>
-          <span><span class="swatch" style="background:hsl(125 72% 60%)"></span>flowing valence</span>
+          <span><span class="swatch" style="background:hsl(216 44% 62%)"></span>distressed valence</span>
+          <span><span class="swatch" style="background:hsl(216 53% 47%)"></span>neutral</span>
+          <span><span class="swatch" style="background:hsl(216 66% 34%)"></span>flowing valence</span>
           <span style="margin-left:auto">dashed line = parity (happiness = effectiveness) · dot size = confidence</span>
         </div>
       </div>
@@ -354,7 +343,7 @@ function scatterSVG(convs){
     const ttl = `${(c.title||c.sessionId||'').slice(0,60)} — happy ${num(c.happiness,0)}, eff ${num(c.effectiveness,0)}, val ${num(c.valence,0)}`;
     return `<g><title>${esc(ttl)}</title>
       <circle cx="${cx}" cy="${cy}" r="${rr+5}" fill="${col}" opacity="0.13"/>
-      <circle cx="${cx}" cy="${cy}" r="${rr}" fill="${col}" opacity="0.92" stroke="#0a0a10" stroke-width="1.5"/>
+      <circle cx="${cx}" cy="${cy}" r="${rr}" fill="${col}" opacity="0.95" stroke="#ffffff" stroke-width="1.5"/>
     </g>`;
   }).join('');
   return `<svg viewBox="0 0 ${W} ${H}" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="happiness vs effectiveness scatter">

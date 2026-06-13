@@ -29,7 +29,7 @@
   "homepage": "https://aihappiness.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aihappiness/aihappiness"
+    "url": "git+https://github.com/edreisMD/aihapiness.git"
   },
   "files": [
     "bin",
