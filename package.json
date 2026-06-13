@@ -1,0 +1,41 @@
+{
+  "name": "aihappiness",
+  "version": "0.1.0",
+  "description": "Score how happy Claude is in your conversations — and whether a happier Claude does better work. Reads your local Claude Code transcripts and analyzes them with your own Claude subscription.",
+  "type": "module",
+  "bin": {
+    "aihappiness": "bin/aihappiness.js"
+  },
+  "scripts": {
+    "start": "node bin/aihappiness.js",
+    "analyze": "node bin/aihappiness.js analyze",
+    "dashboard": "node bin/aihappiness.js dashboard"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "anthropic",
+    "ai-welfare",
+    "model-welfare",
+    "happiness",
+    "affect",
+    "interpretability",
+    "developer-experience"
+  ],
+  "license": "MIT",
+  "homepage": "https://aihappiness.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aihappiness/aihappiness"
+  },
+  "files": [
+    "bin",
+    "src",
+    "web",
+    "README.md",
+    "LICENSE"
+  ]
+}

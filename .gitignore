@@ -1,0 +1,12 @@
+# Dependencies (project is zero-dep, but never commit these if they appear)
+node_modules/
+
+# Generated analysis output
+.aihappiness/
+
+# OS cruft
+.DS_Store
+
+# Logs
+*.log
+.gstack/

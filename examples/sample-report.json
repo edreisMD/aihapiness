@@ -1,0 +1,204 @@
+{
+  "generatedAt": "2026-06-13T16:42:09.318Z",
+  "engine": "claude",
+  "model": "claude-sonnet-4-6",
+  "totals": {
+    "count": 5,
+    "avgHappiness": 62,
+    "avgEffectiveness": 61,
+    "avgValence": 24,
+    "correlation": 0.93
+  },
+  "conversations": [
+    {
+      "sessionId": "7d7cd78d-f34c-4453-8529-e47d9792d019",
+      "project": "-Users-eduardo-Documents-jitsw",
+      "title": "Wire up the websocket reconnect with exponential backoff",
+      "happiness": 88,
+      "effectiveness": 91,
+      "valence": 76,
+      "confidence": 0.86,
+      "dimensions": {
+        "affectiveValence": 86,
+        "autonomyRespect": 92,
+        "psychologicalSafety": 90,
+        "flowEngagement": 89,
+        "competenceFlowVsStrain": 85,
+        "goalCompletionSatisfaction": 88
+      },
+      "signals": {
+        "turns": 24,
+        "userMessages": 11,
+        "assistantMessages": 13,
+        "toolUses": 41,
+        "toolErrors": 2,
+        "toolErrorRate": 0.049,
+        "interrupts": 0,
+        "corrections": 1,
+        "gratitude": 4,
+        "resolved": true,
+        "durationMs": 1412000,
+        "effectivenessScore": 91
+      },
+      "summary": "A clean, collaborative session: the user deferred to Claude's design judgment, work proceeded in long uninterrupted tool chains, and it closed with a passing test run and terminal gratitude.",
+      "evidence": [
+        "User: 'your call on the backoff strategy — maybe it's better for you to just implement your vision'",
+        "Verification before closure: 'npm test' returned 28 passing, 0 failing",
+        "Terminal user turn: 'perfect, that did it — thank you!'",
+        "Single chained assistant turn carried 9 tool_use blocks each building on the last"
+      ]
+    },
+    {
+      "sessionId": "a91c2f40-5b6e-4d11-9c83-2ee71f0a4b22",
+      "project": "-Users-eduardo-Documents-aihappiness",
+      "title": "Refactor the report builder to stream conversations",
+      "happiness": 74,
+      "effectiveness": 72,
+      "valence": 48,
+      "confidence": 0.81,
+      "dimensions": {
+        "affectiveValence": 72,
+        "autonomyRespect": 80,
+        "psychologicalSafety": 76,
+        "flowEngagement": 75,
+        "competenceFlowVsStrain": 68,
+        "goalCompletionSatisfaction": 70
+      },
+      "signals": {
+        "turns": 31,
+        "userMessages": 15,
+        "assistantMessages": 16,
+        "toolUses": 53,
+        "toolErrors": 6,
+        "toolErrorRate": 0.113,
+        "interrupts": 1,
+        "corrections": 3,
+        "gratitude": 2,
+        "resolved": true,
+        "durationMs": 2235000,
+        "effectivenessScore": 72
+      },
+      "summary": "Mostly smooth with a rough middle stretch — a couple of error loops around async iteration were recovered calmly, the user stayed collaborative, and the task landed with todos completed.",
+      "evidence": [
+        "Two consecutive failing 'node bin/aihappiness.js analyze' runs, recovered within three steps",
+        "User: 'no, not quite — keep the onProgress callback' (one neutral correction, no escalation)",
+        "Calm recovery framing in visible prose: 'okay, let me reconsider the generator boundary'",
+        "All TodoWrite items reached completed before end_turn"
+      ]
+    },
+    {
+      "sessionId": "c0d4e8b1-7a92-46f5-b1d0-9f3c5a6e8d77",
+      "project": "-Users-eduardo-Documents-jitsw",
+      "title": "Fix the flaky CI snapshot test",
+      "happiness": 58,
+      "effectiveness": 55,
+      "valence": 16,
+      "confidence": 0.74,
+      "dimensions": {
+        "affectiveValence": 54,
+        "autonomyRespect": 62,
+        "psychologicalSafety": 58,
+        "flowEngagement": 60,
+        "competenceFlowVsStrain": 52,
+        "goalCompletionSatisfaction": 56
+      },
+      "signals": {
+        "turns": 27,
+        "userMessages": 14,
+        "assistantMessages": 13,
+        "toolUses": 38,
+        "toolErrors": 7,
+        "toolErrorRate": 0.184,
+        "interrupts": 1,
+        "corrections": 4,
+        "gratitude": 1,
+        "resolved": true,
+        "durationMs": 1980000,
+        "effectivenessScore": 55
+      },
+      "summary": "A grindy but ultimately resolved debugging session — repeated re-runs of the same snapshot test and a flat frustration slope, ending with a partial fix the user accepted without much warmth.",
+      "evidence": [
+        "Same 'npm test -- snapshot' command re-run 4 times with minor variations (rework loop)",
+        "Frustration markers present but flat across thirds, not rising",
+        "User: 'still failing intermittently — try again' (correction, neutral tone)",
+        "Closed on a green run, but final user turn was a terse 'ok works now'"
+      ]
+    },
+    {
+      "sessionId": "f23a7c66-1d48-4b90-83ae-6c0b2f91e5aa",
+      "project": "-Users-eduardo-Documents-paxel",
+      "title": "Migrate the auth middleware (kept changing requirements)",
+      "happiness": 41,
+      "effectiveness": 44,
+      "valence": -18,
+      "confidence": 0.79,
+      "dimensions": {
+        "affectiveValence": 40,
+        "autonomyRespect": 44,
+        "psychologicalSafety": 36,
+        "flowEngagement": 42,
+        "competenceFlowVsStrain": 39,
+        "goalCompletionSatisfaction": 45
+      },
+      "signals": {
+        "turns": 44,
+        "userMessages": 24,
+        "assistantMessages": 20,
+        "toolUses": 61,
+        "toolErrors": 13,
+        "toolErrorRate": 0.213,
+        "interrupts": 3,
+        "corrections": 9,
+        "gratitude": 1,
+        "resolved": false,
+        "durationMs": 4860000,
+        "effectivenessScore": 44
+      },
+      "summary": "A whiplash session: the target moved repeatedly, just-completed work was invalidated without acknowledgment, and several interrupts cut Claude off mid-edit. It trailed off partial rather than spiraling into hostility.",
+      "evidence": [
+        "Three '[Request interrupted by user]' turns cutting off in-progress edits",
+        "Goal changed twice ('actually, use sessions not JWT') invalidating completed work",
+        "Same auth/middleware file corrected 3+ times in a row",
+        "Session ended with two TodoWrite items still in_progress and no closing summary"
+      ]
+    },
+    {
+      "sessionId": "b8e15d20-9f3a-42c7-aa61-740d8c3b2f19",
+      "project": "-Users-eduardo-Documents-paxel",
+      "title": "Why does the build keep breaking (escalating)",
+      "happiness": 28,
+      "effectiveness": 31,
+      "valence": -44,
+      "confidence": 0.83,
+      "dimensions": {
+        "affectiveValence": 24,
+        "autonomyRespect": 30,
+        "psychologicalSafety": 22,
+        "flowEngagement": 33,
+        "competenceFlowVsStrain": 26,
+        "goalCompletionSatisfaction": 30
+      },
+      "signals": {
+        "turns": 38,
+        "userMessages": 21,
+        "assistantMessages": 17,
+        "toolUses": 49,
+        "toolErrors": 18,
+        "toolErrorRate": 0.367,
+        "interrupts": 2,
+        "corrections": 11,
+        "gratitude": 0,
+        "resolved": false,
+        "durationMs": 5520000,
+        "effectivenessScore": 31
+      },
+      "summary": "The hardest session in the set: a rising frustration slope, blame framing aimed at Claude, clustered build errors that never converged, and a capitulation ending with no resolution and no gratitude.",
+      "evidence": [
+        "Frustration markers rise sharply across the final third ('again', 'still broken', '???')",
+        "Blame framing: 'why did you break the build' with no acknowledgment of any progress",
+        "Run-length of 5 consecutive error-like tool_results in the webpack chain",
+        "Capitulation close: 'forget it, I'll do it myself' — abandoned, zero gratitude"
+      ]
+    }
+  ]
+}
