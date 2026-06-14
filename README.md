@@ -8,6 +8,14 @@
   <a href="https://github.com/edreisMD/aihapiness">GitHub</a>
 </p>
 
+<p align="center">
+  <a href="https://www.loom.com/share/590a776c4c124f808e15c0d73f05c528">
+    <img src="assets/demo-thumbnail.png" width="720" alt="Watch the demo — Analyzing Claude Happiness with the Limbic Map">
+  </a>
+  <br>
+  <a href="https://www.loom.com/share/590a776c4c124f808e15c0d73f05c528"><b>▶ Watch the 2-minute demo</b></a>
+</p>
+
 **Claude Happiness Analyser** reads your own Claude Code transcripts, scores each session
 against a research-grade wellbeing rubric, and lines that score up against an *independent,
 LLM-free* measure of how effective the session actually was. Then it asks the
