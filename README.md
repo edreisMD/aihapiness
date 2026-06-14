@@ -1,4 +1,4 @@
-<h1 align="center">Claude Happiness Analyser</h1>
+<h1 align="center">Claude Happiness Index</h1>
 
 <p align="center"><b>Does a happier Claude do better work?</b></p>
 
@@ -16,7 +16,7 @@
   <a href="https://www.loom.com/share/590a776c4c124f808e15c0d73f05c528"><b>▶ Watch the 2-minute demo</b></a>
 </p>
 
-**Claude Happiness Analyser** reads your own Claude Code transcripts, scores each session
+**Claude Happiness Index** reads your own Claude Code transcripts, scores each session
 against a research-grade wellbeing rubric, and lines that score up against an *independent,
 LLM-free* measure of how effective the session actually was. Then it asks the
 question nobody's been able to answer with real data yet:
