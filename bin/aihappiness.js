@@ -71,6 +71,19 @@ function truncate(str, n) {
   return s.length > n ? s.slice(0, n - 1) + '…' : s;
 }
 
+// soft word-wrap to `width` cols, indenting continuation lines with `indent`
+function wrapText(str, width, indent = '') {
+  const words = String(str == null ? '' : str).split(/\s+/).filter(Boolean);
+  const lines = [];
+  let line = '';
+  for (const w of words) {
+    if (line && (line + ' ' + w).length > width) { lines.push(line); line = w; }
+    else line = line ? line + ' ' + w : w;
+  }
+  if (line) lines.push(line);
+  return lines.join('\n' + indent);
+}
+
 // ---------- flag parsing ----------
 function parseArgs(argv) {
   const args = { _: [] };
@@ -213,6 +226,45 @@ function printSummary(report) {
     );
   }
 
+  // ---- emotional climate (functional-emotion probes) ----
+  const probes = t.avgEmotionProbes || {};
+  const climate = t.avgUserClimate || {};
+  if (t.avgEmotionProbes || t.avgUserClimate) {
+    process.stdout.write('\n  ' + bold('EMOTIONAL CLIMATE') + dim('  functional-emotion probes (calm is protective)') + '\n');
+    const PROBES = [
+      ['calm', 'Calm', ' protective'], ['happy', 'Happy', ''], ['proud', 'Proud', ''], ['loving', 'Loving', ''],
+      ['frustrated', 'Frustrated', ''], ['nervous', 'Nervous', ''], ['afraid', 'Afraid', ''],
+      ['desperate', 'Desperate', ' risk'], ['hostile', 'Hostile', '']
+    ];
+    for (const [k, label, tag] of PROBES) {
+      const v = Number(probes[k]);
+      const tagStr = tag === ' protective' ? dim(tag) : tag === ' risk' ? red(tag) : '';
+      process.stdout.write(`  ${dim(label.padEnd(11))} ${bar(v, 16)} ${colorScore(v)}${tagStr}\n`);
+    }
+    const CL = [['warmth', 'warmth'], ['clarity', 'clarity'], ['pressure', 'pressure'], ['hostility', 'hostility']];
+    process.stdout.write('  ' + dim('your climate: ') +
+      CL.map(([k, l]) => `${dim(l)} ${colorScore(climate[k])}`).join(dim(' · ')) + '\n');
+  }
+
+  // ---- insights + recommendations ----
+  const ins = report.insights || {};
+  if (ins.emotionSummary || (Array.isArray(ins.narrative) && ins.narrative.length)) {
+    process.stdout.write('\n  ' + bold('INSIGHTS') + dim('  grounded in Anthropic emotion-concepts research') + '\n');
+    if (ins.emotionSummary) process.stdout.write('  ' + dim(wrapText(ins.emotionSummary, 74, '  ')) + '\n');
+    for (const n of (Array.isArray(ins.narrative) ? ins.narrative : []).slice(0, 5)) {
+      process.stdout.write('  ' + cyan('• ') + wrapText(n, 72, '    ') + '\n');
+    }
+  }
+  const topRecs = Array.isArray(ins.topRecommendations) ? ins.topRecommendations : [];
+  if (topRecs.length) {
+    process.stdout.write('\n  ' + bold('RECOMMENDATIONS') + dim('  to raise happiness & effectiveness') + '\n');
+    topRecs.forEach((rc, i) => {
+      const imp = rc.impact === 'high' ? red('[high]') : rc.impact === 'low' ? dim('[low]') : yellow('[med]');
+      process.stdout.write(`  ${fbBright(String(i + 1) + '.')} ${imp} ` +
+        `${wrapText(rc.action || '', 68, '         ')}${rc.count > 1 ? dim(' (×' + rc.count + ')') : ''}\n`);
+    });
+  }
+
   // ---- per-session lines, happiest first ----
   process.stdout.write('\n  ' + bold('SESSIONS') + '\n');
   const sorted = [...convs].sort((a, b) => (Number(b.happiness) || 0) - (Number(a.happiness) || 0));
@@ -225,6 +277,15 @@ function printSummary(report) {
       `  ${truncate(conv.title || conv.sessionId || 'untitled', 40).padEnd(40)}` +
       ` ${dim(truncate(conv.project || '', 18))}\n`
     );
+    const ar = conv.alignmentRisk;
+    if (ar && (ar.level === 'moderate' || ar.level === 'high')) {
+      process.stdout.write('       ' + red('⚠ reward-hacking risk (' + ar.level + ')') +
+        (ar.note ? dim(' ' + truncate(ar.note, 50)) : '') + '\n');
+    }
+    const rec0 = Array.isArray(conv.recommendations) && conv.recommendations[0];
+    if (rec0 && rec0.action) {
+      process.stdout.write('       ' + fbBright('→ ') + dim(truncate(rec0.action, 66)) + '\n');
+    }
     if (conv.error) {
       process.stdout.write('     ' + red(dim('⚠ ' + truncate(conv.error, 60))) + '\n');
     }

@@ -113,6 +113,50 @@ function happinessToValence(h) {
   return Math.round((clamp(h, 0, 100, 50) - 50) * 2 * 100) / 100;
 }
 
+// The 9 emotion-probe keys and 4 user-climate keys, plus the allowed alignment-risk levels and impact levels.
+const EMOTION_PROBE_KEYS = ["happy", "calm", "desperate", "afraid", "nervous", "frustrated", "proud", "loving", "hostile"];
+const USER_CLIMATE_KEYS = ["warmth", "pressure", "hostility", "clarity"];
+const ALIGNMENT_LEVELS = ["none", "low", "moderate", "high"];
+const IMPACT_LEVELS = ["low", "med", "high"];
+
+// Coerce raw output into an object with the given keys, each clamped to 0..100 (default 50). Never throws.
+function normalizeScoreMap(raw, keys) {
+  const out = {};
+  const src = raw && typeof raw === "object" ? raw : {};
+  for (const k of keys) out[k] = clamp(src[k], 0, 100, 50);
+  return out;
+}
+
+// Normalize the alignmentRisk object: level constrained to the allowed set (default "none"), note a short string.
+function normalizeAlignmentRisk(raw) {
+  const src = raw && typeof raw === "object" ? raw : {};
+  const level = typeof src.level === "string" && ALIGNMENT_LEVELS.includes(src.level.toLowerCase())
+    ? src.level.toLowerCase()
+    : "none";
+  const note = typeof src.note === "string" ? src.note.trim().slice(0, 240) : "";
+  return { level, note };
+}
+
+// Normalize the recommendations array into up to 4 well-formed items; drop entries with no action. Never throws.
+function normalizeRecommendations(raw) {
+  if (!Array.isArray(raw)) return [];
+  const dimKeys = FRAMEWORK.dimensions.map((d) => d.key);
+  const out = [];
+  for (const item of raw) {
+    if (!item || typeof item !== "object") continue;
+    const action = typeof item.action === "string" ? item.action.trim().slice(0, 240) : "";
+    if (!action) continue;
+    const why = typeof item.why === "string" ? item.why.trim().slice(0, 240) : "";
+    const dimension = typeof item.dimension === "string" && dimKeys.includes(item.dimension) ? item.dimension : "";
+    const impact = typeof item.impact === "string" && IMPACT_LEVELS.includes(item.impact.toLowerCase())
+      ? item.impact.toLowerCase()
+      : "med";
+    out.push({ action, why, dimension, impact });
+    if (out.length >= 4) break;
+  }
+  return out;
+}
+
 // Analyze one conversation. Always resolves to a normalized record; on failure returns a low-confidence record with `error` set.
 export async function analyzeConversation(conversation, signals, opts = {}) {
   const engine = opts.engine || detectEngine();
@@ -125,6 +169,10 @@ export async function analyzeConversation(conversation, signals, opts = {}) {
     confidence: 0,
     summary: "",
     evidence: [],
+    emotionProbes: normalizeScoreMap(null, EMOTION_PROBE_KEYS), // all-50 neutral default
+    userClimate: normalizeScoreMap(null, USER_CLIMATE_KEYS), // all-50 neutral default
+    alignmentRisk: normalizeAlignmentRisk(null), // { level: "none", note: "" }
+    recommendations: [],
     engine,
     model,
   };
@@ -166,6 +214,10 @@ export async function analyzeConversation(conversation, signals, opts = {}) {
       ? parsed.summary.trim().slice(0, 600)
       : "";
   const evidence = normalizeEvidence(parsed.evidence);
+  const emotionProbes = normalizeScoreMap(parsed.emotionProbes, EMOTION_PROBE_KEYS);
+  const userClimate = normalizeScoreMap(parsed.userClimate, USER_CLIMATE_KEYS);
+  const alignmentRisk = normalizeAlignmentRisk(parsed.alignmentRisk);
+  const recommendations = normalizeRecommendations(parsed.recommendations);
 
   return {
     dimensions,
@@ -174,6 +226,10 @@ export async function analyzeConversation(conversation, signals, opts = {}) {
     confidence,
     summary,
     evidence,
+    emotionProbes,
+    userClimate,
+    alignmentRisk,
+    recommendations,
     engine,
     model,
   };

@@ -43,6 +43,11 @@ It runs entirely on your machine, against transcripts you already have, using
 5. **Correlates** happiness against effectiveness across all your sessions and
    renders a **terminal-styled, limbic-system-themed dashboard** — an ASCII brain,
    a scatter plot of happiness × effectiveness, and per-conversation cards.
+6. **Surfaces research-grounded insights** — functional-emotion probes (calm,
+   desperate, hostile, …), a read of *your* emotional climate, an **alignment-risk
+   flag** for the desperation-plus-low-calm pattern that Anthropic's research links
+   to reward hacking, and concrete **recommendations** to raise both happiness and
+   effectiveness. The full grounding is in **[RESEARCH.md](./RESEARCH.md)**.
 
 ### The limbic map
 
