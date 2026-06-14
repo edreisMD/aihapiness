@@ -86,7 +86,7 @@
 
   /* HERO */
   .hero { display: grid; grid-template-columns: 280px 1fr; gap: 20px; padding: 26px 22px 22px; }
-  .brain { color: var(--fb); font-size: 7px; line-height: 6px; white-space: pre; text-shadow: var(--glow) rgba(59,89,152,.45); margin: 0; align-self: center; }
+  .brain { color: var(--fb); font-size: 7px; line-height: 1; white-space: pre; text-shadow: var(--glow) rgba(59,89,152,.45); margin: 0; align-self: center; }
   .brain .core { color: var(--green); }
   .hero-right { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
   .bigscore { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
@@ -189,7 +189,7 @@ const DIMS = [
   { key:'goalCompletionSatisfaction',label:'Goal Completion',     struct:'Ventral Tegmental Area',  color:'var(--green)'  },
 ];
 
-const BRAIN = (function(){ try { return decodeURIComponent(escape(atob("ICAgICAgIDppLX1bfXspfSkpMX19MSkxPytsIi4KICAgICExKSkpKHsofH0pKSkoXHwofCkoKTF7MX0/W19JCiAgXn0xMXwofHRYMDBMME9PUUxRTENRQ0xDWGopfX1bXV1dXgogbHsxKSkpendra2hXQCQkJCQkJCRAJiNrbUxZVTBVMV0/Py0tCkl7MTF7KHFNQCQkb3dMWVhudW5yanRmcm5jWVFDclxDKV9dPytpCi1dfSkpWSQkJDB1UWRRSjBRQ3puL1wofSkoKXsxfV0/XX0/K2l+Cj9dWz9bdGEqTHhxTCl8cWJiYmRiWXt7KTF9XXtbfVs/XS0tX2kKbF1dW319fXtbW3xVWShqd1dNd1h8MX1be1tfXX0tLSstfmwuCiBgK18tXS1dLV1VJCRwbyQkJGtqXT8/LT8/Pz8/Pz8tfTF7MXt+CiAgICAnaV9fKytfLS1dfXYmWF0tLV9ffkkgYHx8KDExMTEpMTExKSIKICAgICAgICAgICAgICAgICAgICAgICAgICAgfXx8KSkpKSkpKTExJwogICAgICAgICAgICAgICAgICAgICAgICAgICAuKHwpfl0xMXs/bAogICAgICAgICAgICAgICAgICAgICAgICAgICAgIXwoCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbGwu"))); } catch(e){ return '( brain )'; } })();
+const BRAIN = (function(){ try { return decodeURIComponent(escape(atob("ICAgICAgICAgICAgIGAiOiJsIX5fXV0/XS1+fn5pITonCiAgICAgICAgXmktXT9bWz9dP317P317e1tdXX17fX0/LS1fX2lsXgogICAgICBsfXtbfX19Wz99KV0/W11dW3t7MVtbfVt9e1tbXVtbX18/LWwKICAgIC5fLV0/e319fX1bKClbKWZudXV2dm5ueGpcMXt7W10tXT8rfistP19sCiAgIC5dXX19ezF7KTFqQ3dtWjBMVVhjdnZ6enZZTFFPWk9KeHtdP10/X19fXy1eCiAgLi1de31bfV0xTHBMelhRcWtvIyMqKiMqaGhxWkxYeFwvY1FtSlwtXyt+LSsrfgogJ1t9XV19e3t2YkxaKiY4JjgmOE0qYWFoaGtiaCoqTSYmaFFuW3JPMCktKytpKys6CiBfXX1dW1t9dWhxJiY4JmRRY3IvLykxfCkxKSl7KTF7KXx0bllMcn0vTD9pX19fIWkKXi0/P11dXXwjTTgmV0x8fG5YTExKdnV0L1xcMXt9XX0xMSl7XX1dP10/LV9fK2khaS4KOmlfLV19fXYkOCYjdC9Ra3BjfC9ZTE8wQ3ooMSl9XV1bXV0/W10tLX5pX11ffmxsIQo7fi1fK18tXE0mOFV0YmhVW314Wk9aT1pPWkx7XX17XV0/X11bLT9bXytfK2l+ISFJCidfXy0tX18/Pylcez9dKXtdW2ZPWlpPWk9aQ31dLV19fT8rLS0tP19pfl8rK19pJwogXy1fLT9bXS0/LV8tXVxDSnw/MUNvKmtZals/Wz8rLT8tfn4tLWl+aWkrSSIKICAhaX5+fl8rXy0rK3skJCQqTE9iJCQjLz9fK19ffn4rX18rX18rKyEhX11dXV1fOwogICAnbGl+Kyt+fn5pLSl1cmpDYiQkJCRrdl0tfitfXyt+IT8/Xz8tLV19W1tbW1tbW2wKICAgICAgXmxpaWkhaWlpfn4rKyspaE9fX35+aWlpfmxeICB7e3t7fVtbW1t9W1tbW1tbIgogICAgICAgICAgLi4gICAgICdeJydsLiAgICAgICAgICAgIH57e3t9W31bW1t9W1tbW1s7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHt7e3t9W1t9W1tbfX1bLQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtMXt7LV1bW1t9W1stIgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAge3t7OiAgIC4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIH57e10KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBbXS0="))); } catch(e){ return '( brain )'; } })();
 
 const face = s => s>=80?':D':s>=65?':)':s>=50?':|':s>=35?':/':':(';
 const FILL='▇', EMPTY='░';
