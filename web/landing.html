@@ -166,23 +166,30 @@
   <hr>
 
   <section id="install">
-    <h2>Two ways to score your sessions</h2>
-    <p class="dim">It reads the Claude Code transcripts already on your computer. Where you run it
-      decides whether it scores every project or just one.</p>
+    <h2>Install &amp; run on your computer</h2>
+    <p class="dim">No npm package yet — it installs straight from the public repo. You'll need
+      <b>Node 18+</b> and the <b>Claude Code CLI</b> you're already logged into (or an
+      <code>ANTHROPIC_API_KEY</code>). It's zero-dependency, so there's nothing to <code>npm install</code>.</p>
 
-    <div class="rec">Option 1 — all my projects (recommended)</div>
-    <p class="dim">Best for the big picture. From your home folder:</p>
-    <div class="cmd"><span class="p">$</span><code id="c1">npx aihappiness</code>
+    <div class="rec">1 · Clone the repo</div>
+    <div class="cmd"><span class="p">$</span><code id="c1">git clone https://github.com/edreisMD/aihapiness.git &amp;&amp; cd aihapiness</code>
       <span class="copy" onclick="copyCmd('c1',this)">copy</span></div>
 
-    <div class="rec">Option 2 — just one project</div>
-    <p class="dim">Best for focusing on a single repo. <span class="arg">cd</span> into it first:</p>
-    <div class="cmd"><span class="p">$</span><code id="c2">cd <span class="arg">~/path/to/your-project</span> &amp;&amp; npx aihappiness</code>
+    <div class="rec">2 · Score all your projects</div>
+    <p class="dim">Reads every Claude Code session under <code>~/.claude/projects</code>, scores them,
+      and opens the dashboard:</p>
+    <div class="cmd"><span class="p">$</span><code id="c2">node bin/aihappiness.js</code>
       <span class="copy" onclick="copyCmd('c2',this)">copy</span></div>
 
-    <p class="dim">No install, no signup, no API key. It scores each session with the
-      <code>claude</code> CLI you're already logged into (or <code>ANTHROPIC_API_KEY</code> if you
-      set one), writes a local report, and opens the limbic dashboard.</p>
+    <div class="rec">…or just one project</div>
+    <div class="cmd"><span class="p">$</span><code id="c3">node bin/aihappiness.js --project <span class="arg">your-repo-name</span></code>
+      <span class="copy" onclick="copyCmd('c3',this)">copy</span></div>
+
+    <p class="dim">Scanning, parsing and the effectiveness math run locally. Only the condensed
+      transcript sent for scoring goes to your own Claude. Results land in
+      <code>./.aihappiness/report.json</code> and the limbic dashboard opens at
+      <code>localhost:7777</code>. Re-open it anytime with
+      <code>node bin/aihappiness.js dashboard</code>.</p>
   </section>
 
   <section id="faq" class="faq">
@@ -241,17 +248,22 @@ corrections, gratitude, resolution) so the happiness-vs-effectiveness correlatio
 - Does happy mean effective? Early data shows a positive, independently-measured link.
 - The soul-crushing task? A trivial "just output this JSON" run scored 100 effectiveness, 54 happiness.
 
-## Install
-It reads the Claude Code transcripts already on your computer. Where you run it decides scope.
+## Install & run on your computer
+No npm package yet — install from the public repo. Requires Node 18+ and the Claude Code CLI
+you're already logged into (or ANTHROPIC_API_KEY). Zero dependencies, nothing to npm install.
 
-Option 1 - all my projects (recommended), from your home folder:
-    npx aihappiness
+1. Clone the repo:
+    git clone https://github.com/edreisMD/aihapiness.git && cd aihapiness
 
-Option 2 - just one project:
-    cd ~/path/to/your-project && npx aihappiness
+2. Score all your projects (reads ~/.claude/projects, scores, opens the dashboard):
+    node bin/aihappiness.js
 
-No install, no signup, no API key. It scores with the claude CLI you're already logged into
-(or ANTHROPIC_API_KEY if set), writes a local report, and opens the dashboard.
+   ...or just one project:
+    node bin/aihappiness.js --project your-repo-name
+
+Results land in ./.aihappiness/report.json; the dashboard opens at localhost:7777
+(re-open anytime with: node bin/aihappiness.js dashboard).
+Only the condensed transcript sent for scoring goes to your own Claude.
 
 ## Privacy
 Everything runs locally. Only the condensed transcript sent for scoring goes to your own Claude.

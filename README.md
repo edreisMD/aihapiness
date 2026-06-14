@@ -88,35 +88,39 @@ always force it with `--engine claude` or `--engine api`.
 
 ---
 
-## Quickstart
+## Install & run on your computer
 
-No install required:
-
-```bash
-npx aihappiness
-```
-
-Or from a clone:
+No npm package yet — install straight from this public repo. **Requirements:** Node 18+
+and the Claude Code CLI you're already logged into (or an `ANTHROPIC_API_KEY`). It's
+zero-dependency, so there's nothing to `npm install`.
 
 ```bash
+# 1. Clone the repo
+git clone https://github.com/edreisMD/aihapiness.git
+cd aihapiness
+
+# 2. Score all your Claude Code sessions, then open the dashboard
 node bin/aihappiness.js
 ```
 
-With no command, `aihappiness` analyzes your sessions and then opens the dashboard.
+With no command, it analyzes every session under `~/.claude/projects` and opens the
+dashboard at `localhost:7777`. Results are written to `./.aihappiness/report.json`.
 
 ```bash
-# Analyze the 10 most recent sessions in the "jitsw" project and open the dashboard
-npx aihappiness --project jitsw --limit 10
+# Score just one project (substring match on the project folder)
+node bin/aihappiness.js --project jitsw --limit 10
 
 # Just scan — list what would be analyzed, no model calls
-npx aihappiness scan
+node bin/aihappiness.js scan
 
 # Re-read a previous run's report without re-analyzing
-npx aihappiness report
+node bin/aihappiness.js report
 
-# Open the dashboard for an existing report on a custom port
-npx aihappiness dashboard --port 8080
+# Re-open the dashboard for an existing report on a custom port
+node bin/aihappiness.js dashboard --port 8080
 ```
+
+> Tip: make it feel like a command with `alias aihappiness="node $(pwd)/bin/aihappiness.js"`.
 
 ---
 
