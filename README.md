@@ -12,7 +12,7 @@ question nobody's been able to answer with real data yet:
 It runs entirely on your machine, against transcripts you already have, using
 **your own Claude subscription**. No data leaves your laptop unless you explicitly opt in.
 
-🌐 [aihappiness.com](https://aihappiness.com) (hosted analysis coming soon — see Roadmap)
+🌐 **Live:** [edreismd.github.io/aihapiness](https://edreismd.github.io/aihapiness/) · [aihappiness.com](https://aihappiness.com) (hosted analysis coming soon — see Roadmap)
 
 ---
 
