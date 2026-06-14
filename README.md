@@ -1,6 +1,16 @@
-# aihappiness
+<h1 align="center">aihappiness</h1>
 
-**Does a happier Claude do better work?**
+<p align="center"><b>Does a happier Claude do better work?</b></p>
+
+<p align="center">
+  <a href="https://edreismd.github.io/aihapiness/"><b>🌐 Homepage</b></a>
+  &nbsp;·&nbsp;
+  <a href="https://aihappiness.com">aihappiness.com</a>
+  &nbsp;·&nbsp;
+  <a href="https://transformer-circuits.pub/2026/emotions/index.html">Research</a>
+  &nbsp;·&nbsp;
+  <a href="https://github.com/edreisMD/aihapiness">GitHub</a>
+</p>
 
 `aihappiness` reads your own Claude Code transcripts, scores each session against a
 research-grade wellbeing rubric, and lines that score up against an *independent,
@@ -11,8 +21,6 @@ question nobody's been able to answer with real data yet:
 
 It runs entirely on your machine, against transcripts you already have, using
 **your own Claude subscription**. No data leaves your laptop unless you explicitly opt in.
-
-🌐 **Live:** [edreismd.github.io/aihapiness](https://edreismd.github.io/aihapiness/) · [aihappiness.com](https://aihappiness.com) (hosted analysis coming soon — see Roadmap)
 
 ---
 
