@@ -198,15 +198,16 @@ block-bar limbic map, and an ASCII face per session by happiness bucket:
 - **Anthropic's interpretability research on model emotions** ([paper][anthropic])
   — the inspiration for taking a model's apparent wellbeing seriously as something
   worth measuring, and for grounding the rubric in valence/affect.
-- **[Paxel](https://paxel.ycombinator.com/)** (by Y Combinator) — for the spirit of
-  small, sharp, local-first tools that turn your own AI-coding sessions into insight,
-  and for the page layout (HUMAN/MACHINE toggle, dithered rails). Paxel surfaces how
-  *you* prompt; the Index scores how *Claude* feels.
+- **[Paxel](https://paxel.ycombinator.com/)** (a Y Combinator experiment) — the spark
+  for analysing your *historic* AI-coding sessions (Claude / Codex / Cursor) to surface
+  insights about how you build, plus the page layout we borrow (HUMAN/MACHINE toggle,
+  dithered rails, insight cards). Paxel uploads and compares your sessions to profile how
+  *you* build; the Index runs locally and scores how *Claude* feels.
 
 ---
 
 ## License
 
-MIT © 2026 aihappiness contributors. See [LICENSE](./LICENSE).
+MIT © 2026 Limbic Systems. See [LICENSE](./LICENSE).
 
 [anthropic]: https://transformer-circuits.pub/2026/emotions/index.html
