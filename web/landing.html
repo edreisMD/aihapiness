@@ -20,11 +20,9 @@
   a{color:var(--fb);text-decoration:none} a:hover{text-decoration:underline}
   em{font-style:italic;color:var(--fb-deep)}
 
-  .rail-art{position:fixed;top:-4px;bottom:0;width:118px;margin:0;overflow:hidden;
-    font-family:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
-    font-size:9px;line-height:1;white-space:pre;color:var(--fb-bright);opacity:.5;
-    z-index:0;pointer-events:none;user-select:none}
-  .rail-art.left{left:0} .rail-art.right{right:0}
+  .rail{position:fixed;top:0;bottom:0;width:120px;background-image:url(/rail.png);
+    background-size:120px 100%;background-repeat:repeat-y;z-index:0;pointer-events:none;opacity:.95}
+  .rail.left{left:0} .rail.right{right:0;transform:scaleX(-1)}
 
   .topbar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:20px;
     padding:13px 28px;background:rgba(250,249,246,.9);backdrop-filter:blur(8px);
@@ -47,7 +45,7 @@
 
   /* HERO */
   .hero{text-align:center;padding:54px 0 6px}
-  .brain{color:var(--fb);font-size:6.5px;line-height:1;white-space:pre;display:inline-block;text-align:left;margin:0 0 20px}
+  .brain{color:var(--fb);font-size:8px;line-height:1;white-space:pre;display:inline-block;text-align:left;margin:0 0 20px}
   .hero h1{font-size:32px;font-weight:700;letter-spacing:-.01em;margin:4px 0 10px;color:var(--ink)}
   .hero h1 .cur{color:var(--fb);animation:blink 1.1s steps(1) infinite}
   @keyframes blink{50%{opacity:0}}
@@ -94,7 +92,7 @@
   body.machine{background:#0a0a0a}
   body.machine #human{display:none}
   body.machine #machine{display:block}
-  body.machine .rail-art{display:none}
+  body.machine .rail{display:none}
   body.machine .topbar{background:rgba(10,10,10,.92);border-bottom-color:#222}
   body.machine .nav a,body.machine .logo{color:#888}
   .mbox{max-width:820px;margin:0 auto;padding:30px 28px 90px}
@@ -105,11 +103,11 @@
   pre.md{white-space:pre-wrap;color:#b9c0cc;font-size:13px;line-height:1.7;margin:0}
   pre.md .note{color:#6b7280}
 
-  @media (max-width:860px){ .rail-art{display:none} .cards{grid-template-columns:1fr} .logo{display:none} }
+  @media (max-width:860px){ .rail{display:none} .cards{grid-template-columns:1fr} .logo{display:none} }
 </style>
 
-<pre class="rail-art left" id="railL"></pre>
-<pre class="rail-art right" id="railR"></pre>
+<div class="rail left"></div>
+<div class="rail right"></div>
 
 <div class="topbar">
   <div class="nav"><a href="#how">How</a><a href="#install">Install</a><a href="#faq">FAQ</a></div>
@@ -286,79 +284,8 @@ Open source, MIT: github.com/edreisMD/aihapiness
 </div>
 
 <script>
-const BRAIN_B64 = "ICAgICAgICAgICAgICAgICAgICAgICAgIGAiOmxJSWwhKy0rK18tLS1dXT8/LV0/LV9paSstLV8tPy1+bCJgCiAgICAgICAgICAgICAgICAgICBebH4/P11bW1tdLV9fW317W319XT9dezExe319fV0/LT9bW31bW3sxfS1ffisrXz8hIi4KICAgICAgICAgICAgICAgLklfLS0/XV0tLV19fT8/Pz8/LV19KTFdP1t9e3t7MXtdP10/XX17e319MX0tPz8tPy1ffl8raX4rK2xgCiAgICAgICAgICAgICA7W31dX35fXX19fVt9W1tbW1t7fS0/XV0/Py1be1t9fVtbW319XVtdXV0/XVtbW11bfVtdLS1dXT8tK18tPz8taScKICAgICAgICAgICAiXV17e1tbfX1dXX17W1s/LV1bKSkxXT8/XX1dPy1dXT99MSkxMXtbXT9dfX1bXVsxe1tbe1tbW11be30tX18rLV1dLV9pIgogICAgICAgICAgfi19e3tbeykoKDF7e3sxfV9ffSgpKVs/P117MSkxe1tdXX0pMXspKXsxMSl8XDF9MTExW1tbW10/P11be1stX2krLT8tK18tLWlgCiAgICAgICAgIS0tLV9fLT9dW319fX1bW1tbe30xfCgxWy1dfSgvanh1dmN6emNjdXh4bnh4cmp0XDF7e3tbfV19e11fXy0/XS0tfn5pfn4tPy0/LT8/IQogICAgICAgIT8tLT9dW10tfTF9W319fVt7e3t7KWZ6TG1wYSNNTU1NKiMqb2hoaGhvbyojI01NTSNva3FPQ2NyKH1bXT8tP1tdP19fLV9fXy0tX19fLS0tIgogICAgICBsP11dW1sxMXt7KCh7MSkpMTEpdFltbyYjaG1RWHZ1eGpmLy8vfCh8KHwvLy8oMTF8dHh1WEpaZG8jI2h3Q3IpXV0/Pz9dfV0tLV9fKytfXz8tK2kKICAgICBgPz9dWykxWz9bfX1bfVt7KGpYZFcjcVVqKDExdHJjQ0NRT21xWk8wTzBRQ1lZVXZqai8pe3t7ezEpKS91UWQjTWJMZnt9fVtdP18tXytpXy1fX19fKzoKICAgIGwtP1tdfX0xfVtbfV0/P110MFdNWmNcXHVZWmsjJjgmOCYmJjgmJjgmJjgmOCY4JiY4JjhNaGJPTFhyLyh8KSgoakpwTSowal0tXysrKyt+K19fK2l+Xy1JCiAgIGw/XX1dXV1bW317e3t9MShZV01DZnZMYlcmOCYmJjgmOCY4JjgmOCYmOCY4JiY4JiY4JjgmJiY4JiY4JiZvd1VyfTF9XXx6ayZkdVtfK19fK18tK2l+X18tXzoKICBpP319fV1dXV1dMX19ezFybyZZak8jJiY4JjgmJjgmOCYmJjhXb2hoZHFwcXF3d21abTBad3FkaGhrb1cmOCY4JjhNcHoxLVt9fEMjYXpbLV9pfn5paX5+K34hbAogLj8/W3sxfVt9fXt7fXt7eCoqelpNJjgmOCYmJjgmJmh3TFV1bi98fCgofC8vXCkxMTEpMXsxMSgpe3t7MS9qZnVYTFprTU1aci0/XShaJlFbfiF+KytfLS0raWwhSQogaV8tP11dP1tdPy0/W31cb1dMYTgmOCYmOCY4YU92dChcXCgpXHRmXH19fTEoMXsxKHwoKXtbfSkpKTF9MSgpe319e3tbKWpYTFl8LV17dHRdK35pLS0tKytpISF+XwpgPz8tXT9dP11dP18tW31MJXAmJiY4JjgmJlp1KFxcL1x8fGZuWVlMUUxVY2N4L1xmamovMXsxMX1dW3sxKShcKCgofCl7ezF7fV17W319W1s/LSsrX18rfn4hbGlpaV4KSV8rXy0/Py1dW1t9WzFqI1cmJjgmJjgmcWoxfTExclhRbWhoa21MWHIvKSgxW317MXxcXDF7MXt9fS0/XX19fX19e31bLS1dXT8/Xy0tP19fX19fLV9fXytpISFpaSEnCn5pISErXy1dW317MTEpWUBCJjgmOCYmUTF7KWpVcGhhaHBZcil7XHJjWUpDQ0p6dWp8KCkpMSkpe3s/LS0/XVtbW1s/Py1dW10/X18rfmkhaX4tXV0tXytpSUlsISEhCn5pKy1fXy0/XVtdP11bTCRCOCYmOCZYW3tqd2hoaGhRdFt9ey9YT1pPWlpPWk9aT1pRZlt7MTF9fVtdXX17fT9dXT8/XVt9Wz8tP10/X2l+Xy0/XS1+fn5+IUlsIWlpCit+fl8tLV9+KytfXy0/bk0lJjgmJm9bW3hiaGFoZFxdXX0xLzBPWk9aT09aT1pPWk9aT3Z9fV0/W3t9fVtbWz8tX19dW31bXV9fXX1bP19+fi0tK2lpaWl+aWkhfn4uCisrfitfXy0tXysrXz97e0xrYSY4Jm0/e1ptd2RkLz8/W3spek9aT1pPWk9aT1pPWk9aT1pbXS1dfXsxfV0tP31dXystXT8tLT8/XT8/LSsrKysrKyt+fn5pIWxJIV4KIitfX18tLT8tX19fLT99XT9be1xmfD8tXV19fTExXT9dfTF4Wk9aT1pPWk9aT1pPWk9aUX1dLS0tP1t9fX19Wy1fX18tLS0rXy0/Xyt+fitfLS1fK18tLStpbEkKIC0tXy1fK19fXy1fX18rX117e3tbPy1dXV1dW3t7W11dW1tbek9aT1pPWk9aT1pPWk9MXFt7e1s/LS1dW319Wz9ffn5fP11bLV8tLStpISFpKysrfn5+fitpJwogIT8tX19fXy0/XV1bWz8rXz9dLS0rKy0/XT8tPzEoKTF9XS0/fHpPcGthaGR3T1pKeH0/Pz9bW11fK34tP10/X19+aStfP10tfn5+K35pISstX35paTsnCiAgaV8tLS1fLS0tPz9bXT8tPz8/Xy1fX19dKU8kJCQkTXpbPz9ffVo4ODg4OCN4fT8tPy0/P11bLX4rXz8/X19fKyFpfitfXytpaWlpISFsaSshIjo6IiIuCiAgIGxpfmlpfn5+fisrLS0rK18tXyshKz9bSiQkJCQkJEJqdWN4ak8mJUJCJmQoPy0tLV8rX18tXysrfn5+K19fLV8rXy0tLV9fKysraSEhbGk/XV1dXV1dXV1dIV4KICAgIDtpIWlpaX5+fl9fK2l+K18tLX5+LV1ccCQkJCQlZCMlJCQkJCQkJCQkQmtDXFtffisrfmlfK35+fn5+fitfXytpKysrKytfX2lpbCFfXV1dXV1dXV1dXV1dXV1pCiAgICAgIEkhIWlpaX4rKyt+fn5+KytpIV8tXVsoampcey9DcW9XJSQkJCQkJCQkJWtVfS0tK35+KysrKystK35+fn4/LS0rfn5+X19fP119fVt9e319fXt9e31bfX19fVs7CiAgICAgICAgIGAhIX5+fitpaX5+fmkhbCFfK18tPy1fLV0/P10vMCpXJCQkcG4xP35pXy0/LSt+KytfXy0/X35sIC57e3t7e3t7e31dXV1dXV1dW319fVtbW11dXV1dXV1dbAogICAgICAgICAgICdsSWwhaWl+aWl+ISFpfml+fml+fisrKysrKy0xbSZXel9+Xy0rfn5+fiEhaX5+fmlpaUkuICAgXXt7e3t7e3t7fX19fX19fVtbW31bW1t9e1t9fX19W10nCiAgICAgICAgICAgICAgO2lpaWkhISEhaWlsOztsISEhaSFpfmkhaSEtcFgrIV4gYDshaWxsISEhbCJgLiAgICAgICAie3t7e3t7e3t9W11dXV1dXV1dXV1bXV1dXV1bW31dXUkKICAgICAgICAgICAgICAgICAgLi4nLicgICAgICAgIC5eXjo7O15eXmA6LiAgICAgICAgICAgICAgICAgICAgICAgICB7e3t7MXt7e1t9fX19fX19e319fX19fX19fX19XV1dOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF97e3t7e3sxfX19fVtdXV1dXV1dXV1dXX19W31bXV0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAne3t7e3t7e31dXVt9fX19fX19e319fX19W11dXV0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLXt7e3t7e3tbfX19W319e319fXt9W31bfX1dKwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAue3sxe3t7ez8/XV1dXVtbfX1bW11dXV1dficKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgID97e3t7e3tfICBgO34tXV1dXV1fIToKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC57e3t7MXt7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaXt7e3t7ezoKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAge3t7e3t7XQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBJe3t7e3t7IgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLXt7e1staQ==";
-// ---------- live ASCII art: one shared character ramp for the brain + the rails ----------
-const RAMP = " ·:░▒▓█";
-const GEN_RAMP = " .'`^\":;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
-const rampChar = v => RAMP[Math.max(0, Math.min(RAMP.length - 1, Math.round(v * (RAMP.length - 1))))];
-function hash(x, y){ const s = Math.sin(x * 127.1 + y * 311.7) * 43758.5453; return s - Math.floor(s); }
-function vnoise(x, y){
-  const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
-  const u = xf * xf * (3 - 2 * xf), w = yf * yf * (3 - 2 * yf);
-  const a = hash(xi, yi), b = hash(xi + 1, yi), c = hash(xi, yi + 1), d = hash(xi + 1, yi + 1);
-  return a + (b - a) * u + (c - a) * w + (a - b - c + d) * u * w;
-}
-
-// brain density grid, derived from the embedded ASCII brain (reuse, no regeneration)
-let BG = [], BR = 0, BC = 0;
-try {
-  const txt = decodeURIComponent(escape(atob(BRAIN_B64)));
-  BG = txt.split('\n').map(r => Array.from(r).map(ch => { const i = GEN_RAMP.indexOf(ch); return i < 0 ? 0 : i / (GEN_RAMP.length - 1); }));
-  BR = BG.length; BC = BG.reduce((m, r) => Math.max(m, r.length), 0);
-} catch (e) {}
-
-const brainEl = document.getElementById('brain');
-const railL = document.getElementById('railL'), railR = document.getElementById('railR');
-let RCOLS = 22, RROWS = 130;
-function sizeRails(){ const fs = 9, cw = fs * 0.6, lh = fs; RCOLS = Math.max(8, Math.ceil(118 / cw)); RROWS = Math.ceil((window.innerHeight + 8) / lh) + 1; }
-sizeRails(); addEventListener('resize', sizeRails);
-
-function renderRail(side, t){
-  let s = '';
-  for (let y = 0; y < RROWS; y++) {
-    let line = '';
-    for (let x = 0; x < RCOLS; x++) {
-      const d = side === 'L' ? x / RCOLS : (RCOLS - 1 - x) / RCOLS;        // 0 at the outer page edge
-      const edge = Math.pow(1 - d, 1.3);
-      const n = vnoise(x * 0.22, (y - t * 0.9) * 0.17) * 0.6 + vnoise(x * 0.6, (y - t * 1.7) * 0.5) * 0.28;
-      line += rampChar(Math.max(0, Math.min(1, edge * 0.95 + (n - 0.36))));
-    }
-    s += line + '\n';
-  }
-  return s;
-}
-function renderBrain(t){
-  let s = '';
-  for (let y = 0; y < BR; y++) {
-    const row = BG[y] || []; let line = '';
-    for (let x = 0; x < BC; x++) {
-      const base = row[x] || 0;
-      if (base < 0.07) { line += ' '; continue; }
-      const sh = 0.60 + 0.42 * vnoise(x * 0.30 - t * 0.12, y * 0.34 - t * 0.85);   // travelling shimmer
-      let v = base * sh;
-      if (base > 0.62) { const fire = Math.max(0, vnoise(x * 0.9 + t * 0.6, y * 0.9) - 0.55) * 2.2; v = Math.max(v, base * (0.85 + fire)); } // limbic "firing"
-      line += rampChar(Math.max(0, Math.min(1, v)));
-    }
-    s += line.replace(/\s+$/, '') + '\n';
-  }
-  return s;
-}
-
-let _f = 0, _t = 0;
-function loop(){
-  _f++;
-  if (_f % 2 === 0) {                       // ~30fps on a 60Hz display
-    _t += 0.5;
-    if (brainEl) brainEl.textContent = renderBrain(_t);
-    if (!document.body.classList.contains('machine')) {
-      if (railL) railL.textContent = renderRail('L', _t);
-      if (railR) railR.textContent = renderRail('R', _t);
-    }
-  }
-  requestAnimationFrame(loop);
-}
-loop();
-
+const BRAIN_B64 = "ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAnXl4ibGlpKy0/Pz8tK2k7SWxJIjpeYAogICAgICAgICAgICAgICAgICAnO34/XV1bLV8rXX1bLVtdPz97fX1dW31dLV8/XV1dXVt7XV8rX2khIgogICAgICAgICAgICAgIF4hLT8/XT8tW31bPz8/Pz9bMTF9P1t9ezExe10/Pz9be3t9fTFbPy0tLS0rK19pfmlJXgogICAgICAgICAgIC4rfVstfi1bfX1bW1tbW1t7ez8tXV0/LV19W1t9fVt7fVtdP11dP1tbW1t9Wz8/P1tdPytfPz8/aV4KICAgICAgICAgIH5dfXtbfSkxXV19fVstLVt7KHtdP119fV0/Pz9dMSkxMX1be317e31bMShbP319XV1bfX0/XytfP10tX346CiAgICAgICAgOi0/W11dW30xe3sxfTF9XV17KDFbLV1dezEpKXt9fTEoe3sxMXspKCh7XX17fX1bfX0tPz99XS0raStfXystPy1+XgogICAgICAgaS0rXy0/P119fVt9fVtbW317KFwvXC94ekNacWRraGFoYmJiZHB3dzBMWXVmLygxfVt9LS0tLV0/Xyt+Kys/Py0tLT8/YAogICAgICAhXT9dW317fTEoe3sxe3sxKGZZbWgqb2txWjBKWGNjY254eG52Y3Z2dllDMHdwa2Fva1pVdXxdP11dPz9dPy1fX18rX18/X2kKICAgICBJP11be3t9XX17W31bKVx4MGEqcEpyfCl0cnpZSkwwT0xKQ0NKWWNYdmZ0XCl7ezEpXHR2THdvYXd6fFt9fV0/LS1faSstX19fKyIKICAgICEtXV1bezFbW31dPz9bdms4cWNcdGNRZComJiY4JiYmJjgmOCYmOCYmJjgmOE1rcTBZbi8pKCgpZlliV2hjey1fK34rKytfX35pKy1pCiAgIH5dW1tdXV1bfXt9fTFqcSNReEpxKjgmJjgmJjgmJjgmOCY4JiY4JjgmOCY4JiY4JjgmJiYmI2JRbih9XSl2ZCNMKC1fXytfX35pK19fXzsKICBpP3t9fV1dXXsxfXsxeldoeDBNJiY4JjgmJjgmOCYjaHBaWlFRTExKVVVZWVhKQzBaWk9iaG8mJjgmV210P1tbL3AmQ1stfml+aSsrK35sbAogJy0tXXt9W31bXVt9MW5XbVFXJjgmOCYmJipaQ2NyKFxcdFwxMTFcXCkxKSgpe3t7KDF7e3spe319L3J2SnFwSns/fXhxeCtpaV8tX18raSFpbAogfl8tPz8/P10tXz9dXCpraDgmOCYmJldadSgofHx8KHx0eHhmdHRmdC90anQoMX19fXsxKSkoKHt7KCgpMSkxKWp9W319Wz8rfi0tK35+bCFpKwogLV8tPz8/XVtbXVsxUUJNJiY4JjhvVSl7MXx1WUxPd2J3MFl1eGZ8fX0pfFwoezF7e10/XX17KSkpMX0/P1tdXT8tXT8tLV9fLStfKyshIWlpIQogaSEhKy0/XX19MTEoYUA4JjgmJmJcMSl1UWJoaHdYail8eHZYVUxZWHVyfCgpKSkxe1s/X11dXVtbXT8tP1tdLV8rfn4hfl8/Pz9ffiE7bCEhIQpgaX4tX18/P1tdP1sxTSQmOCY4bzF9andoaGhaclt9MXIwT1pPWk9aT1pPQyl9ezF9fV1dXXt9XV0/P11bfVstLV0/X2l+Xy1dP35+fmlsbGxpOgouK35fLV8rKysrXy1bUUImJjgmeFt2a2FoaG4/XX0pY1pPWk9aT1pPWk9aTzAvW11dfXt7W11dXS0rLV19XV0tLVt9P19+Ky1faWlpaWlpIWl+CiArfitfLT8tXystW3t8SjBPZGtdP3hYSkN1XT9beykwWk9aT1pPWk9aT1paT2NbLT9dfXt9P119PytfPy1fXy0/Py1fK19fXysrK18raSFJbAogK18tLV8tLV9fX18tLT99MXt9Pz9dXX17MXtdP1t7ak9aT1pPWk9aT1pPT0wofVs/LT9dfXt9XS1ffl8tXS0tLS0raSF+fl9fK18rXyshJwogST9fXyt+Xz8/P10/K19dXV1fKy0/XT8tP11dfX0/Py9DWlpxcHFaWk9aWSk/XVt9XV8rXz9bXS1ffistP1tfKytffmkhK18raWkhOy4KICB+Xy0/LS0/LV1dWz8tPz8tLV9fLT97USNAJWRyXT8tP1VXODg4TVEvfT8/Pz9dWz9+Ky0/LV9faSFpfl8tK2lpaWkhISsrOzpeLgogICBsaX5pfn5pKystLV9+Xy1faX4tfVkkJCQkJCVuWHpyUU1CQiVvbj8tX18rX18tX34rfn4rX18tXystLV9fKysraSFsIV9dXV1dXV1dLSEiCiAgICA7aSF+aWkrfl8raX4rXz8rfl9dKGskJCQmd01CJCQkJCQkJCQ4bXJ9Kyt+fmlfK35+K35+K18raSsrKysrX34hbH4/XV1dXVtdXV1bXV1dIQogICAgICBgSSFpaX5+Kyt+fml+aSF+LT9dfXtbXTFyWVoqJSQkJCQkKlpVal0/LSt+KytfKy1ffn4nP11dPy0tLT8/XVt9W1t9fX1bfX19W31bW31dLgogICAgICAgICAuIWlpaWlpK35+aWwhfn4rX18rX19fLS0xWU04JHd7LV9paSstX35+fisrX18raSAgO3t7e3t7e3tbfVtdXV1dXV1dXV1dXV1dfX19XQogICAgICAgICAgIC47IWlpaSEhISFpaWkhIWlpfn5+fmlpK30jVV9pSWlfK2lsbGwhaSFsOi4gICAgIHt7e3t7e3tbXVt9W319fX19fX19W319XV1dXX4KICAgICAgICAgICAgICAgYGAiIl5eICAgICAuXjo6bH5sSTo6fWwgICAgICAgICAgICAgICAgICAgICAte3t7e3t7e1t9W319W1tbW1tbfX1bfVt9W10rCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgInt7ezF7e3t9fV1dXV1dXVtdXV1dXVt9fV1dYAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBbe3t7e3t7XV19fVt9fX1bfX19W31bXV1dOgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA6e3t7e3t7fX1bfVt9fX19fX19fX19Wz9gCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBbe3t7e3srIn5dXV1bXV1bXV1dLWwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF57ezF7ez8gICAgYDo6OjoiCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXXt7e3t7JwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICd7e3t7ez8KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgK3t7e3t7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtLX4hbCc=";
+try { document.getElementById('brain').textContent = decodeURIComponent(escape(atob(BRAIN_B64))); } catch(e){}
 function setView(v){
   document.body.classList.toggle('machine', v==='machine');
   document.getElementById('tHuman').classList.toggle('on', v==='human');
