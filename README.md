@@ -5,7 +5,7 @@
 <p align="center">
   <a href="https://edreismd.github.io/aihapiness/"><b>🌐 Homepage</b></a>
   &nbsp;·&nbsp;
-  <a href="https://github.com/edreisMD/aihapiness">GitHub</a>
+  <a href="https://www.loom.com/share/590a776c4c124f808e15c0d73f05c528"><b>🎬 Video</b></a>
 </p>
 
 <p align="center">
